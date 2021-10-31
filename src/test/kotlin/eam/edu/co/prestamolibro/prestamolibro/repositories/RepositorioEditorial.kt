@@ -1,7 +1,7 @@
 package eam.edu.co.prestamolibro.prestamolibro.repositories
 
-import eam.edu.co.prestamolibro.prestamolibro.Modelo.Editorial
-import eam.edu.co.prestamolibro.prestamolibro.repositorio.EditorialRepo
+import eam.edu.co.prestamolibro.prestamolibro.modelo.Publisher
+import eam.edu.co.prestamolibro.prestamolibro.repositorio.PublisherRepo
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -10,9 +10,9 @@ import org.springframework.transaction.annotation.Transactional
 import javax.persistence.EntityManager
 @SpringBootTest
 @Transactional
-class repositorioEditorial {
+class repositorioPublisher {
     @Autowired
-    lateinit var editorialRepo: EditorialRepo
+    lateinit var publisherRepo: PublisherRepo
     @Autowired
     lateinit var entityManager: EntityManager
 
@@ -26,13 +26,13 @@ class repositorioEditorial {
         //que la persona no exista
 
         //la ejecucion de la prueba.. llamar el metodo que estoy probando
-        editorialRepo.createEditorial(Editorial("3", "nachito"))
+        publisherRepo.createEditorial(Publisher("3", "nachito"))
 
         //asersiones, o las verificaciones
-        val editorial = entityManager.find(Editorial::class.java, "3")
-        Assertions.assertNotNull(editorial)
-        Assertions.assertEquals("3", editorial.code)
-        Assertions.assertEquals("nachito", editorial.name)
+        val publisher = entityManager.find(Publisher::class.java, "3")
+        Assertions.assertNotNull(publisher)
+        Assertions.assertEquals("3", publisher.code)
+        Assertions.assertEquals("nachito", publisher.name)
 
     }
 
@@ -40,21 +40,21 @@ class repositorioEditorial {
     @Test
     fun testDeleteEditorial(){
         //prerequisitos
-        entityManager.persist(Editorial("3", "nachito"))
+        entityManager.persist(Publisher("3", "nachito"))
 
         //ejecucion de la preuba
-        editorialRepo.deleteEditorial("3")
+        publisherRepo.deleteEditorial("3")
 
         //assersiones
-        val editorial = entityManager.find(Editorial::class.java, "3")
-        Assertions.assertNull(editorial)
+        val publisher = entityManager.find(Publisher::class.java, "3")
+        Assertions.assertNull(publisher)
     }
 
     @Test
     fun findTestEditorial() {
-        entityManager.persist(Editorial("3", "nachito"))
+        entityManager.persist(Publisher("3", "nachito"))
 
-        val editorial = editorialRepo.findEditorial("3")
+        val editorial = publisherRepo.findEditorial("3")
 
         Assertions.assertNotNull(editorial)
         Assertions.assertEquals("3", editorial?.code)
@@ -63,18 +63,18 @@ class repositorioEditorial {
     @Test
     fun testUpdateEditorial() {
         //prerequisito
-        entityManager.persist(Editorial("3", "nachito",))
+        entityManager.persist(Publisher("3", "nachito",))
         entityManager.flush()
         //ejecutando...
-        val editorial = entityManager.find(Editorial::class.java, "3")
+        val publisher = entityManager.find(Publisher::class.java, "3")
 
         entityManager.clear()
-        editorial.name = "nachote"
+        publisher.name = "nachote"
 
-        editorialRepo.updateEditorial(editorial)
+        publisherRepo.updateEditorial(publisher)
 
         //assersiones
-        val personToAssert = entityManager.find(Editorial::class.java, "3")
+        val personToAssert = entityManager.find(Publisher::class.java, "3")
         Assertions.assertEquals("nachote", personToAssert.name)
 
     }

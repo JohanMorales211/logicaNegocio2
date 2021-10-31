@@ -1,8 +1,7 @@
 package eam.edu.co.prestamolibro.prestamolibro.repositories
 
-import eam.edu.co.prestamolibro.prestamolibro.Modelo.Autor
-import eam.edu.co.prestamolibro.prestamolibro.repositorio.AutorRepo
-import eam.edu.co.prestamolibro.prestamolibro.repositorio.EditorialRepo
+import eam.edu.co.prestamolibro.prestamolibro.modelo.Author
+import eam.edu.co.prestamolibro.prestamolibro.repositorio.AuthorRepo
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -12,9 +11,9 @@ import javax.persistence.EntityManager
 
 @SpringBootTest
 @Transactional
-class repositorioAutor {
+class repositorioAuthor {
     @Autowired
-    lateinit var autorRepo:AutorRepo
+    lateinit var authorRepo:AuthorRepo
     @Autowired
     lateinit var entityManager: EntityManager
 
@@ -28,14 +27,14 @@ class repositorioAutor {
         //que la persona no exista
 
         //la ejecucion de la prueba.. llamar el metodo que estoy probando
-        autorRepo.createAutor(Autor(3L, "tafur","rodrigues"))
+        authorRepo.createAutor(Author(3L, "tafur","rodrigues"))
 
         //asersiones, o las verificaciones
-        val autor = entityManager.find(Autor::class.java, 3L)
-        Assertions.assertNotNull(autor)
-        Assertions.assertEquals(3L, autor.id)
-        Assertions.assertEquals("tafur", autor.name)
-        Assertions.assertEquals("rodrigues", autor.lastname)
+        val author = entityManager.find(Author::class.java, 3L)
+        Assertions.assertNotNull(author)
+        Assertions.assertEquals(3L, author.id)
+        Assertions.assertEquals("tafur", author.name)
+        Assertions.assertEquals("rodrigues", author.lastname)
 
     }
 
@@ -43,21 +42,21 @@ class repositorioAutor {
     @Test
     fun testDeleteEditorial(){
         //prerequisitos
-        autorRepo.createAutor(Autor(3L, "tafur","rodrigues"))
+        authorRepo.createAutor(Author(3L, "tafur","rodrigues"))
 
         //ejecucion de la preuba
-        autorRepo.deleteAutor(3L)
+        authorRepo.deleteAutor(3L)
 
         //assersiones
-        val autor = entityManager.find(Autor::class.java, 3L)
-        Assertions.assertNull(autor)
+        val author = entityManager.find(Author::class.java, 3L)
+        Assertions.assertNull(author)
     }
 
     @Test
     fun findTestEditorial() {
-        autorRepo.createAutor(Autor(3L, "tafur","rodrigues"))
+        authorRepo.createAutor(Author(3L, "tafur","rodrigues"))
 
-        val autor = autorRepo.findAutor(3L)
+        val autor = authorRepo.findAutor(3L)
 
         Assertions.assertNotNull(autor)
         Assertions.assertEquals(3L, autor?.id)
@@ -66,19 +65,19 @@ class repositorioAutor {
     @Test
     fun testUpdateEditorial() {
         //prerequisito
-        autorRepo.createAutor(Autor(3L, "tafur","rodrigues"))
+        authorRepo.createAutor(Author(3L, "tafur","rodrigues"))
         entityManager.flush()
         //ejecutando...
-        val autor = entityManager.find(Autor::class.java, 3L)
+        val author = entityManager.find(Author::class.java, 3L)
 
         entityManager.clear()
-        autor.name = "javi"
-        autor.lastname="morales"
+        author.name = "javi"
+        author.lastname="morales"
 
-        autorRepo.updateAutor(autor)
+        authorRepo.updateAutor(author)
 
         //assersiones
-        val personToAssert = entityManager.find(Autor::class.java, 3L)
+        val personToAssert = entityManager.find(Author::class.java, 3L)
         Assertions.assertEquals("javi", personToAssert.name)
         Assertions.assertEquals("morales", personToAssert.lastname)
 

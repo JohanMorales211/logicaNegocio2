@@ -1,4 +1,4 @@
-package eam.edu.co.prestamolibro.prestamolibro.Modelo
+package eam.edu.co.prestamolibro.prestamolibro.modelo
 
 import java.io.Serializable
 import javax.persistence.Column
@@ -7,8 +7,8 @@ import javax.persistence.Id
 import javax.persistence.Table
 
 @Entity
-@Table(name="autor")
-data class Autor(
+@Table(name="Autor")
+data class Author(
     @Id
     @Column(name="codigo_autor")
     val id:Long,

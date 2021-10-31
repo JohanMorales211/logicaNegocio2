@@ -1,7 +1,10 @@
 package eam.edu.co.prestamolibro.prestamolibro.repositories
 
-import eam.edu.co.prestamolibro.prestamolibro.Modelo.*
-import eam.edu.co.prestamolibro.prestamolibro.repositorio.PrestamoRepo
+import eam.edu.co.prestamolibro.prestamolibro.modelo.Book
+import eam.edu.co.prestamolibro.prestamolibro.modelo.Borrow
+import eam.edu.co.prestamolibro.prestamolibro.modelo.Publisher
+import eam.edu.co.prestamolibro.prestamolibro.modelo.User
+import eam.edu.co.prestamolibro.prestamolibro.repositorio.BorrowRepo
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -12,9 +15,9 @@ import javax.persistence.EntityManager
 
 @SpringBootTest
 @Transactional
-class repositorioPrestamo {
+class repositorioBorrow {
     @Autowired
-    lateinit var prestamoRepo: PrestamoRepo
+    lateinit var borrowRepo: BorrowRepo
 
     @Autowired
     lateinit var entityManager:EntityManager
@@ -28,24 +31,24 @@ class repositorioPrestamo {
         //prerequisitos
         //que la persona no exista
         val fecha=Date(2021,2,24)
-        val usuario=Usuario("3", "claudia","rodrigues")
-        entityManager.persist(usuario)
-        val editorial=Editorial("3", "nachito")
-        entityManager.persist(editorial)
-        val libro=Libro("3","1","harryPotter",editorial)
-        entityManager.persist(libro)
+        val user= User("3", "claudia","rodrigues")
+        entityManager.persist(user)
+        val publisher= Publisher("3", "nachito")
+        entityManager.persist(publisher)
+        val book= Book("3","1","harryPotter",publisher)
+        entityManager.persist(book)
 
         //la ejecucion de la prueba.. llamar el metodo que estoy probando
-        prestamoRepo.createPrestamo(Prestamo(3L,libro,usuario,fecha))
+        borrowRepo.createPrestamo(Borrow(3L,book,user,fecha))
 
         //asersiones, o las verificaciones
-        val prestamo = entityManager.find(Prestamo::class.java, 3L)
-        Assertions.assertNotNull(prestamo)
-        Assertions.assertEquals("3", usuario.identification)
-        Assertions.assertEquals("3", editorial.code)
-        Assertions.assertEquals("3",libro.code)
-        Assertions.assertEquals(3L,prestamo.id)
-        Assertions.assertEquals(Date(2021,2,24,),prestamo.dateTime)
+        val borrow = entityManager.find(Borrow::class.java, 3L)
+        Assertions.assertNotNull(borrow)
+        Assertions.assertEquals("3", user.identification)
+        Assertions.assertEquals("3", publisher.code)
+        Assertions.assertEquals("3",book.code)
+        Assertions.assertEquals(3L,borrow.id)
+        Assertions.assertEquals(Date(2021,2,24,),borrow.dateTime)
 
 
 
@@ -56,38 +59,38 @@ class repositorioPrestamo {
     fun testDeletePrestamo(){
         //prerequisitos
         val fecha=Date(2021,2,24)
-        val usuario=Usuario("3", "claudia","rodrigues")
-        entityManager.persist(usuario)
-        val editorial=Editorial("3", "nachito")
-        entityManager.persist(editorial)
-        val libro=Libro("3","1","harryPotter",editorial)
-        entityManager.persist(libro)
+        val user= User("3", "claudia","rodrigues")
+        entityManager.persist(user)
+        val publisher= Publisher("3", "nachito")
+        entityManager.persist(publisher)
+        val book= Book("3","1","harryPotter",publisher)
+        entityManager.persist(book)
 
         //la ejecucion de la prueba.. llamar el metodo que estoy probando
-        prestamoRepo.createPrestamo(Prestamo(3L,libro,usuario,fecha))
+        borrowRepo.createPrestamo(Borrow(3L,book,user,fecha))
 
         //ejecucion de la preuba
-        prestamoRepo.deletePrestamo(3L)
+        borrowRepo.deletePrestamo(3L)
 
         //assersiones
-        val prestamo = entityManager.find(Prestamo::class.java, 3L)
-        Assertions.assertNull(prestamo)
+        val borrow = entityManager.find(Borrow::class.java, 3L)
+        Assertions.assertNull(borrow)
     }
 
     @Test
     fun findTestPrestamo() {
         val fecha=Date(2021,2,24)
-        val usuario=Usuario("3", "claudia","rodrigues")
-        entityManager.persist(usuario)
-        val editorial=Editorial("3", "nachito")
-        entityManager.persist(editorial)
-        val libro=Libro("3","1","harryPotter",editorial)
-        entityManager.persist(libro)
+        val user= User("3", "claudia","rodrigues")
+        entityManager.persist(user)
+        val publisher= Publisher("3", "nachito")
+        entityManager.persist(publisher)
+        val book= Book("3","1","harryPotter",publisher)
+        entityManager.persist(book)
 
         //la ejecucion de la prueba.. llamar el metodo que estoy probando
-        prestamoRepo.createPrestamo(Prestamo(3L,libro,usuario,fecha))
+        borrowRepo.createPrestamo(Borrow(3L,book,user,fecha))
 
-        val prestamo = prestamoRepo.findPrestamo(3L)
+        val prestamo = borrowRepo.findPrestamo(3L)
 
         Assertions.assertNotNull(prestamo)
         Assertions.assertEquals(3L, prestamo?.id)
@@ -97,80 +100,80 @@ class repositorioPrestamo {
     fun testUpdatePrestamo() {
         //prerequisito
         val fecha=Date(2021,2,24)
-        val usuario=Usuario("3", "claudia","rodrigues")
-        entityManager.persist(usuario)
-        val editorial=Editorial("3", "nachito")
-        entityManager.persist(editorial)
-        val libro=Libro("3","1","harryPotter",editorial)
-        entityManager.persist(libro)
+        val user= User("3", "claudia","rodrigues")
+        entityManager.persist(user)
+        val publisher= Publisher("3", "nachito")
+        entityManager.persist(publisher)
+        val book= Book("3","1","harryPotter",publisher)
+        entityManager.persist(book)
         //la ejecucion de la prueba.. llamar el metodo que estoy probando
-        prestamoRepo.createPrestamo(Prestamo(3L,libro,usuario,fecha))
+        borrowRepo.createPrestamo(Borrow(3L,book,user,fecha))
         entityManager.flush()
         //ejecutando...
-        val prestamo = entityManager.find(Prestamo::class.java, 3L)
+        val borrow = entityManager.find(Borrow::class.java, 3L)
 
-        prestamo.dateTime=Date(2021,4,20)
+        borrow.dateTime=Date(2021,4,20)
 
 
-        prestamoRepo.updatePrestamo(prestamo)
+        borrowRepo.updatePrestamo(borrow)
 
         //assersiones
-        val personToAssert = entityManager.find(Prestamo::class.java, 3L)
+        val personToAssert = entityManager.find(Borrow::class.java, 3L)
         Assertions.assertEquals(Date(2021,4,20), personToAssert.dateTime)
 
     }
     @Test
     fun findByUsuario(){
-        val usuario1=Usuario("1", "Sandra","florez")
-        entityManager.persist(usuario1)
-        val usuario2=Usuario("2", "melissa","forero")
-        entityManager.persist(usuario2)
+        val user1= User("1", "Sandra","florez")
+        entityManager.persist(user1)
+        val user2= User("2", "melissa","forero")
+        entityManager.persist(user2)
 
-        val editorial1=Editorial("1","df")
-        entityManager.persist(editorial1)
+        val publisher1= Publisher("1","df")
+        entityManager.persist(publisher1)
 
-        val libro1=Libro("11","1a","las reliquias",editorial1)
-        entityManager.persist(libro1)
-        val libro2=Libro("12","2a","el prisionero",editorial1)
-        entityManager.persist(libro2)
-        val libro3=Libro("13","3a","el ganador",editorial1)
-        entityManager.persist(libro3)
+        val book1= Book("11","1a","las reliquias",publisher1)
+        entityManager.persist(book1)
+        val book2= Book("12","2a","el prisionero",publisher1)
+        entityManager.persist(book2)
+        val book3= Book("13","3a","el ganador",publisher1)
+        entityManager.persist(book3)
 
-        entityManager.persist(Prestamo(1L,libro1,usuario1,Date(2000,1,8)))
-        entityManager.persist(Prestamo(2L,libro2,usuario1,Date(2000,1,8)))
-        entityManager.persist(Prestamo(3L,libro3,usuario2,Date(2000,1,8)))
+        entityManager.persist(Borrow(1L,book1,user1,Date(2000,1,8)))
+        entityManager.persist(Borrow(2L,book2,user1,Date(2000,1,8)))
+        entityManager.persist(Borrow(3L,book3,user2,Date(2000,1,8)))
 
-        val listaOne=prestamoRepo.findByUsuario("1")
-        val listaTwo=prestamoRepo.findByUsuario("2")
+        val listaOne=borrowRepo.findByUsuario("1")
+        val listaTwo=borrowRepo.findByUsuario("2")
         Assertions.assertEquals(2,listaOne.size)
         Assertions.assertEquals(1,listaTwo.size)
 
     }
     @Test
     fun findByLibro(){
-        val usuario1=Usuario("1", "Sandra","florez")
-        entityManager.persist(usuario1)
-        val usuario2=Usuario("2", "melissa","forero")
-        entityManager.persist(usuario2)
+        val user1= User("1", "Sandra","florez")
+        entityManager.persist(user1)
+        val user2= User("2", "melissa","forero")
+        entityManager.persist(user2)
 
-        val editorial1=Editorial("1","df")
-        entityManager.persist(editorial1)
+        val publisher1= Publisher("1","df")
+        entityManager.persist(publisher1)
 
-        val libro1=Libro("11","1a","las reliquias",editorial1)
-        entityManager.persist(libro1)
-        val libro2=Libro("12","2a","el prisionero",editorial1)
-        entityManager.persist(libro2)
-        val libro3=Libro("13","3a","el ganador",editorial1)
-        entityManager.persist(libro3)
+        val book1= Book("11","1a","las reliquias",publisher1)
+        entityManager.persist(book1)
+        val book2= Book("12","2a","el prisionero",publisher1)
+        entityManager.persist(book2)
+        val book3= Book("13","3a","el ganador",publisher1)
+        entityManager.persist(book3)
 
-        entityManager.persist(Prestamo(1L,libro1,usuario1,Date(2000,1,8)))
-        entityManager.persist(Prestamo(2L,libro2,usuario1,Date(2000,1,8)))
-        entityManager.persist(Prestamo(3L,libro3,usuario2,Date(2000,1,8)))
-        entityManager.persist(Prestamo(4L,libro2,usuario2,Date(2000,1,8)))
+        entityManager.persist(Borrow(1L,book1,user1,Date(2000,1,8)))
+        entityManager.persist(Borrow(2L,book2,user1,Date(2000,1,8)))
+        entityManager.persist(Borrow(3L,book3,user2,Date(2000,1,8)))
+        entityManager.persist(Borrow(4L,book2,user2,Date(2000,1,8)))
 
-        val listaOne=prestamoRepo.findBylibro("11")
-        val listaTwo=prestamoRepo.findBylibro("12")
-        val listaThree=prestamoRepo.findBylibro("13")
+        val listaOne=borrowRepo.findBylibro("11")
+        val listaTwo=borrowRepo.findBylibro("12")
+        val listaThree=borrowRepo.findBylibro("13")
         Assertions.assertEquals(1,listaOne.size)
         Assertions.assertEquals(2,listaTwo.size)
         Assertions.assertEquals(1,listaThree.size)
@@ -178,29 +181,29 @@ class repositorioPrestamo {
     }
     @Test
     fun findByAutor(){
-        val usuario1=Usuario("1", "Sandra","florez")
-        entityManager.persist(usuario1)
-        val usuario2=Usuario("2", "melissa","forero")
-        entityManager.persist(usuario2)
+        val user1= User("1", "Sandra","florez")
+        entityManager.persist(user1)
+        val user2= User("2", "melissa","forero")
+        entityManager.persist(user2)
 
-        val editorial1=Editorial("1","df")
-        entityManager.persist(editorial1)
+        val publisher1= Publisher("1","df")
+        entityManager.persist(publisher1)
 
-        val libro1=Libro("11","1a","las reliquias",editorial1)
-        entityManager.persist(libro1)
-        val libro2=Libro("12","2a","el prisionero",editorial1)
-        entityManager.persist(libro2)
-        val libro3=Libro("13","3a","el ganador",editorial1)
-        entityManager.persist(libro3)
+        val book1= Book("11","1a","las reliquias",publisher1)
+        entityManager.persist(book1)
+        val book2= Book("12","2a","el prisionero",publisher1)
+        entityManager.persist(book2)
+        val book3= Book("13","3a","el ganador",publisher1)
+        entityManager.persist(book3)
 
-        entityManager.persist(Prestamo(1L,libro1,usuario1,Date(2000,1,8)))
-        entityManager.persist(Prestamo(2L,libro2,usuario1,Date(2000,1,8)))
-        entityManager.persist(Prestamo(3L,libro3,usuario2,Date(2000,1,8)))
-        entityManager.persist(Prestamo(4L,libro2,usuario2,Date(2000,1,8)))
+        entityManager.persist(Borrow(1L,book1,user1,Date(2000,1,8)))
+        entityManager.persist(Borrow(2L,book2,user1,Date(2000,1,8)))
+        entityManager.persist(Borrow(3L,book3,user2,Date(2000,1,8)))
+        entityManager.persist(Borrow(4L,book2,user2,Date(2000,1,8)))
 
-        val listaOne=prestamoRepo.findBylibro("11")
-        val listaTwo=prestamoRepo.findBylibro("12")
-        val listaThree=prestamoRepo.findBylibro("13")
+        val listaOne=borrowRepo.findBylibro("11")
+        val listaTwo=borrowRepo.findBylibro("12")
+        val listaThree=borrowRepo.findBylibro("13")
         Assertions.assertEquals(1,listaOne.size)
         Assertions.assertEquals(2,listaTwo.size)
         Assertions.assertEquals(1,listaThree.size)

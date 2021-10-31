@@ -1,6 +1,6 @@
 package eam.edu.co.prestamolibro.prestamolibro.repositories
 
-import eam.edu.co.prestamolibro.prestamolibro.Modelo.Usuario
+import eam.edu.co.prestamolibro.prestamolibro.modelo.User
 import eam.edu.co.prestamolibro.prestamolibro.repositorio.UsuarioRepo
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
@@ -11,7 +11,7 @@ import javax.persistence.EntityManager
 
 @SpringBootTest
 @Transactional
-class repositorioUsuario {
+class repositorioUser {
     @Autowired
     lateinit var usuarioRepo: UsuarioRepo
 
@@ -28,33 +28,33 @@ class repositorioUsuario {
         //que la persona no exista
 
         //la ejecucion de la prueba.. llamar el metodo que estoy probando
-        usuarioRepo.createUsuario(Usuario("3", "claudia","rodrigues"))
+        usuarioRepo.createUsuario(User("3", "claudia","rodrigues"))
 
         //asersiones, o las verificaciones
-        val usuario = entityManager.find(Usuario::class.java,  "3")
-        Assertions.assertNotNull(usuario)
-        Assertions.assertEquals("claudia", usuario.name)
-        Assertions.assertEquals("3", usuario.identification)
-        Assertions.assertEquals("rodrigues", usuario.lastname)
+        val user = entityManager.find(User::class.java,  "3")
+        Assertions.assertNotNull(user)
+        Assertions.assertEquals("claudia", user.name)
+        Assertions.assertEquals("3", user.identification)
+        Assertions.assertEquals("rodrigues", user.lastname)
     }
 
 
     @Test
     fun testDeleteUsuario(){
         //prerequisitos
-        entityManager.persist(Usuario("3", "claudia","rodrigues"))
+        entityManager.persist(User("3", "claudia","rodrigues"))
 
         //ejecucion de la preuba
         usuarioRepo.deleteUsuario("3")
 
         //assersiones
-        val usuario = entityManager.find(Usuario::class.java, "3")
-        Assertions.assertNull(usuario)
+        val user = entityManager.find(User::class.java, "3")
+        Assertions.assertNull(user)
     }
 
     @Test
     fun findTestUsuario() {
-        entityManager.persist(Usuario("3", "claudia","rodrigues"))
+        entityManager.persist(User("3", "claudia","rodrigues"))
 
         val usuario = usuarioRepo.findUsuario("3")
 
@@ -65,18 +65,18 @@ class repositorioUsuario {
     @Test
     fun testUpdateUsuario() {
         //prerequisito
-        entityManager.persist(Usuario("3", "claudia","rodrigues"))
+        entityManager.persist(User("3", "claudia","rodrigues"))
         entityManager.flush()
         //ejecutando...
-        val usuario = entityManager.find(Usuario::class.java, "3")
+        val user = entityManager.find(User::class.java, "3")
         entityManager.clear()
-        usuario.name = "tereza"
-        usuario.lastname ="morales"
+        user.name = "tereza"
+        user.lastname ="morales"
 
-        usuarioRepo.updateUsuario(usuario)
+        usuarioRepo.updateUsuario(user)
 
         //assersiones
-        val personToAssert = entityManager.find(Usuario::class.java, "3")
+        val personToAssert = entityManager.find(User::class.java, "3")
         Assertions.assertEquals("tereza", personToAssert.name)
         Assertions.assertEquals("morales", personToAssert.lastname)
     }

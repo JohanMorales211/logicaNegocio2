@@ -1,4 +1,4 @@
-package eam.edu.co.prestamolibro.prestamolibro.Modelo
+package eam.edu.co.prestamolibro.prestamolibro.modelo
 
 import java.io.Serializable
 import java.util.*
@@ -6,16 +6,16 @@ import javax.persistence.*
 
 @Entity
 @Table(name="Prestamo")
-data class Prestamo(
+data class Borrow(
     @Id
     @Column(name="id")
     val id:Long,
     @ManyToOne
     @JoinColumn(name="id_libro")
-    val libro:Libro,
+    val book: Book,
     @ManyToOne
     @JoinColumn(name="id_usuario")
-    val usuario:Usuario,
+    val user: User,
     @Column(name="fecha_prestamo")
     var dateTime:Date
 ):Serializable

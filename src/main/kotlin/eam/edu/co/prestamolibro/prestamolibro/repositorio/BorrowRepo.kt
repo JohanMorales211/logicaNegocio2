@@ -1,7 +1,6 @@
 package eam.edu.co.prestamolibro.prestamolibro.repositorio
 
-import eam.edu.co.prestamolibro.prestamolibro.Modelo.Libro
-import eam.edu.co.prestamolibro.prestamolibro.Modelo.Prestamo
+import eam.edu.co.prestamolibro.prestamolibro.modelo.Borrow
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
@@ -10,32 +9,32 @@ import javax.persistence.EntityManager
 @Transactional //para que las operaciones sobre la BD funcionen.
 
 
-class PrestamoRepo {
+class BorrowRepo {
     @Autowired //esta anotacion indica que springboot se encargara de instanciar esta clase.
     lateinit var em: EntityManager //clase que nos da JPA para manipular las entidades.
-    fun findByUsuario(id:String):List<Prestamo>{
+    fun findByUsuario(id:String):List<Borrow>{
         val query=em.createQuery("SELECT prest FROM Prestamo prest WHERE prest.usuario.id=:codeUsuario")
         query.setParameter("codeUsuario",id)
-        return query.resultList as List<Prestamo>
+        return query.resultList as List<Borrow>
     }
-    fun findBylibro(code:String):List<Prestamo>{
+    fun findBylibro(code:String):List<Borrow>{
         val query=em.createQuery("SELECT prest FROM Prestamo prest WHERE prest.libro.code=:codeLibro")
         query.setParameter("codeLibro",code)
-        return query.resultList as List<Prestamo>
+        return query.resultList as List<Borrow>
     }
 
-    fun createPrestamo(prestamo: Prestamo){
-        em.persist(prestamo) //inserta en la tabla que define la entidad.
+    fun createPrestamo(borrow: Borrow){
+        em.persist(borrow) //inserta en la tabla que define la entidad.
     }
 
     //? quiere decir q algo puede ser null
-    fun findPrestamo(id:Long): Prestamo?{
+    fun findPrestamo(id:Long): Borrow?{
         //se el envia la clase que quiero buscar y el valor de la llave primaria que quiero buscar.
-        return em.find(Prestamo::class.java,id) //busca en la bd por llave primaria
+        return em.find(Borrow::class.java,id) //busca en la bd por llave primaria
     }
 
-    fun updatePrestamo(prestamo: Prestamo) {
-        em.merge(prestamo) //actualizar un registro sobre la BD
+    fun updatePrestamo(borrow: Borrow) {
+        em.merge(borrow) //actualizar un registro sobre la BD
     }
 
     fun deletePrestamo(id: Long) {

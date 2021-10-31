@@ -1,11 +1,11 @@
-package eam.edu.co.prestamolibro.prestamolibro.Modelo
+package eam.edu.co.prestamolibro.prestamolibro.modelo
 
 import java.io.Serializable
 import javax.persistence.*
 
 @Entity
 @Table(name="Editorial")
-data class Editorial(
+data class Publisher(
     @Id
     @Column(name="codigo_editorial")
     val code:String,

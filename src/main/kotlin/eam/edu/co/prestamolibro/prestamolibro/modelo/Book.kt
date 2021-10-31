@@ -1,11 +1,11 @@
-package eam.edu.co.prestamolibro.prestamolibro.Modelo
+package eam.edu.co.prestamolibro.prestamolibro.modelo
 
 import java.io.Serializable
 import javax.persistence.*
 
 @Entity
 @Table(name="Libro")
-data class Libro(
+data class Book(
     @Id
     @Column(name="codigo_autor")
     val code:String,
@@ -15,5 +15,5 @@ data class Libro(
     var name:String,
     @ManyToOne
     @JoinColumn(name ="id_editorial")
-    val  editorial:Editorial
+    val  publisher: Publisher
 ):Serializable

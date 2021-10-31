@@ -1,10 +1,7 @@
 package eam.edu.co.prestamolibro.prestamolibro.services
 
-import eam.edu.co.prestamolibro.prestamolibro.Modelo.Editorial
-import eam.edu.co.prestamolibro.prestamolibro.Modelo.Usuario
+import eam.edu.co.prestamolibro.prestamolibro.modelo.Publisher
 import eam.edu.co.prestamolibro.prestamolibro.exceptions.BusinessException
-import eam.edu.co.prestamolibro.prestamolibro.servirces.PublisherServices
-import eam.edu.co.prestamolibro.prestamolibro.servirces.UserService
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -22,9 +19,9 @@ class PublisherServicesTest {
     lateinit var entityManager: EntityManager
     @Test
     fun testCreateUserCode() {
-        entityManager.persist(Editorial("3", "nachito"))
+        entityManager.persist(Publisher("3", "nachito"))
         try {
-            publisherServices.createPublisher(Editorial("3", "nachito"))
+            publisherServices.createPublisher(Publisher("3", "nachito"))
             Assertions.fail()
         } catch (e: BusinessException) {
             Assertions.assertEquals("This Publisher already exists", e.message)
