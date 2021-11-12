@@ -26,6 +26,13 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
+tasks.getByName<Jar>("jar") {
+	enabled = false
+	manifest {
+		attributes["Main-Class"] = "edu.eam.ingesoft.ejemploPersons.EjemploPersonsApplication"
+	}
+}
+
 tasks.withType<KotlinCompile> {
 	kotlinOptions {
 		freeCompilerArgs = listOf("-Xjsr305=strict")
